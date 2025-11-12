@@ -1,0 +1,17 @@
+// 交换2个int变量的值，不能使用第三个变量
+#include <stdio.h>
+int main()
+{
+    int a = 3, b = 5;
+    a = a ^ b;
+    b = a ^ b;
+    a = a ^ b;
+    // a = a + b;
+    // b = a - b;
+    // a = a - b;
+    // 数据太大会溢出
+    // a ^ a = 0
+    // a ^ 0 = a
+    printf("a=%d,b=%d", a, b);
+    return 0;
+}
