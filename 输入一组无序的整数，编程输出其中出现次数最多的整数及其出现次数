@@ -1,0 +1,132 @@
+// 整数出现次数。
+// 【问题描述】
+// 输入一组无序的整数，编程输出其中出现次数最多的整数及其出现次数。
+// 【输入形式】
+// 读入整数的个数（大于等于1，小于等于100），然后在下一行输入这些整数。
+// 【输出形式】
+// 输出出现次数最多的整数及其出现的次数，两者以一个空格分隔；若出现次数最多的整数有多个，则按照整数升序分行输出。
+// 【样例输入】
+// 10
+// 0 -50 0 632 5813 -50 9 -50 0 632
+// 【样例输出】
+//-50 3
+// 0 3
+// 【样例说明】
+// 输入了10个整数，其中出现次数最多的是-50和0，都出现了3次。
+// 输出结束有换行。
+
+#include <stdio.h>
+#define N 100
+int main()
+{
+    int a[N], i, n = 0;
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &a[i]);
+    }
+
+    for (i = 0; i < n - 1; i++)
+    {
+        for (int j = 1; j < n - 1 - i; j++)
+        {
+            if (a[j] > a[j + 1])
+            {
+                int temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
+        }
+    }
+
+    // 4. 统计每个数的出现次数
+    int count[N] = {0}; // 存储每个数的出现次数
+    int idx = 0;        // 去重后的数组下标
+    count[0] = 1;
+    for (i = 1; i < n; i++)
+    {
+        if (a[i] == a[idx])
+        {
+            count[idx]++;
+        }
+        else
+        {
+            idx++;
+            a[idx] = a[i];
+            count[idx] = 1;
+        }
+    }
+
+    // 5. 找到最大出现次数
+    int max_count = 0;
+    for (i = 0; i <= idx; i++)
+    {
+        if (count[i] > max_count)
+        {
+            max_count = count[i];
+        }
+    }
+
+    // 6. 输出出现次数等于max_count的数（升序）
+    for (i = 0; i <= idx; i++)
+    {
+        if (count[i] == max_count)
+        {
+            printf("%d %d\n", a[i], count[i]);
+        }
+    }
+
+    // 方法二
+    //  4. 统计次数（避免重复输出）
+    // int max_count = 0;
+    // int current_num = a[0];
+    // int current_count = 1;
+    //  先遍历统计所有数的次数，找到最大次数
+    // for(i = 1; i < n; i++){
+    //  if(a[i] == current_num){
+    //     current_count++;
+    // } else {
+    //   if(current_count > max_count){
+    //      max_count = current_count;
+    //   }
+    //  current_num = a[i];
+    //   current_count = 1;
+    //   }
+    //  }
+    // 处理最后一个数的次数
+    // if(current_count > max_count){
+    //     max_count = current_count;
+    //  }
+
+    // 5. 再次遍历，输出出现次数等于max_count的数
+    // current_num = a[0];
+    // current_count = 1;
+    // for(i = 1; i < n; i++){
+    //     if(a[i] == current_num){
+    //        current_count++;
+    //    } else {
+    //       if(current_count == max_count){
+    //           printf("%d %d\n", current_num, current_count);
+    //       }
+    //      current_num = a[i];
+    //      current_count = 1;
+    //   }
+    // }
+    // 处理最后一个数
+    // if(current_count == max_count){
+    //  printf("%d %d\n", current_num, current_count);
+    // }
+
+    // 错误解法
+    // for(i=0; i<n; i++)
+    //{
+    //   int count=0;
+    // for(j=1;j<n;j++){
+    // if(a[i]==a[j])
+    // count++;
+    //}
+    //    printf("%d %d\n",a[i],count);
+    //}
+
+    return 0;
+}
